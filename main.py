@@ -1,4 +1,5 @@
 import unittest
+import pyperclip
 
 from selenium.webdriver import Keys
 from selenium import webdriver
@@ -47,7 +48,7 @@ class TestSuite(unittest.TestCase):
         self.input_text_element = self.chrome_driver.find_element(By.NAME, Locator.text_input)
 
     def test_validate_vowels_logic(self):
-        """ GIVEN I click on 'Оставить только гласные' button
+        """ GIVEN I click on first button
             THEN output text has vowels only
         """
         pattern = set(VOWELS)
@@ -56,7 +57,7 @@ class TestSuite(unittest.TestCase):
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_vowels_and_spaces_logic(self):
-        """ GIVEN I click on 'Hу и ещё пробелы' button
+        """ GIVEN I click on second button
             THEN output text has vowels and spaces only
         """
         pattern = set(VOWELS + SPACE)
@@ -65,7 +66,7 @@ class TestSuite(unittest.TestCase):
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_vowels_symbols_and_spaces_logic(self):
-        """ GIVEN I click on 'Оставить ещё и .,-!?' button
+        """ GIVEN I click on third button
             THEN output text has vowels, spaces and symbols only
         """
         pattern = set(VOWELS + SPACE + SYMBOLS)
@@ -107,6 +108,18 @@ class TestSuite(unittest.TestCase):
         assert self.button_clean_vowels_and_spaces.is_displayed()
         assert self.button_clean_vowels.is_displayed()
         assert self.button_select_all.is_displayed()
+
+    def test_validate_select_all_button(self):
+        """ GIVEN I have min screen
+            AND I click on 'Оставить ещё и .,-!?' button
+            THEN output text has vowels, spaces and symbols only
+        """
+        self.button_clean_vowels_spaces_and_symbols.click()
+        self.button_select_all.click()
+        webdriver.ActionChains(self.chrome_driver).key_down(Keys.CONTROL).send_keys('c').key_up(Keys.CONTROL).perform()
+        output_text_clipboard = pyperclip.paste().split()
+        output_text = self.output_text_element.text.split()
+        assert output_text == output_text_clipboard
 
 
 if __name__ == '__main__':
