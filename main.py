@@ -17,9 +17,9 @@ SYMBOLS = ["!", ".", ",", ":", "-", "?"]
 CUSTOM_TEXT = "Случайный текст с пробелами и символами!?"
 
 
-class TestCalc(unittest.TestCase):
+class TestSuite(unittest.TestCase):
     """
-        Test Suit to validate input parsing for VOWELS, SPACE and SYMBOLS
+        Test Suite to validate input parsing for VOWELS, SPACE and SYMBOLS
     """
 
     def tearDown(self):
