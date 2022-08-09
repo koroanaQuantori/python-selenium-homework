@@ -48,7 +48,7 @@ class TestCalc(unittest.TestCase):
 
     def test_validate_vowels_logic(self):
         """ GIVEN I click on 'Оставить только гласные' button
-            THEN output text has vowels only only
+            THEN output text has vowels only
         """
         pattern = set(VOWELS)
         self.button_clean_vowels.click()
@@ -76,7 +76,7 @@ class TestCalc(unittest.TestCase):
     def test_validate_custom_input(self):
         """ GIVEN I added custom text to input field
             AND I click on 'Оставить ещё и .,-!?' button
-            THEN output text has vowels, spaces and symbols
+            THEN output text has vowels, spaces and symbols only
         """
         pattern = set(VOWELS + SPACE + SYMBOLS)
         self.input_text_element.send_keys(Keys.CONTROL + "a")
