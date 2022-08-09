@@ -10,7 +10,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from Locators import Locator
 
-# Constants
 VOWELS = ["у", "е", "а", "о", "э", "я", "и", "ю", "ы", "ё"]
 SPACE = [" "]
 SYMBOLS = ["!", ".", ",", ":", "-", "?"]
@@ -19,6 +18,9 @@ CUSTOM_TEXT = "Случайный текст с пробелами и симво
 
 
 class TestCalc(unittest.TestCase):
+    """
+        Test Suit to validate input parsing for VOWELS, SPACE and SYMBOLS
+    """
 
     def tearDown(self):
         self.chrome_driver.quit()
@@ -45,24 +47,37 @@ class TestCalc(unittest.TestCase):
         self.input_text_element = self.chrome_driver.find_element(By.NAME, Locator.text_input)
 
     def test_validate_vowels_logic(self):
+        """ GIVEN I click on 'Оставить только гласные' button
+            THEN output text has vowels only only
+        """
         pattern = set(VOWELS)
         self.button_clean_vowels.click()
         output_text = self.output_text_element.text.replace('\n', "")
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_vowels_and_spaces_logic(self):
+        """ GIVEN I click on 'Hу и ещё пробелы' button
+            THEN output text has vowels and spaces only
+        """
         pattern = set(VOWELS + SPACE)
         self.button_clean_vowels_and_spaces.click()
         output_text = self.output_text_element.text.replace('\n', "")
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_vowels_symbols_and_spaces_logic(self):
+        """ GIVEN I click on 'Оставить ещё и .,-!?' button
+            THEN output text has vowels, spaces and symbols only
+        """
         pattern = set(VOWELS + SPACE + SYMBOLS)
         self.button_clean_vowels_spaces_and_symbols.click()
         output_text = self.output_text_element.text.replace('\n', "")
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_custom_input(self):
+        """ GIVEN I added custom text to input field
+            AND I click on 'Оставить ещё и .,-!?' button
+            THEN output text has vowels, spaces and symbols
+        """
         pattern = set(VOWELS + SPACE + SYMBOLS)
         self.input_text_element.send_keys(Keys.CONTROL + "a")
         self.input_text_element.send_keys(Keys.DELETE)
@@ -72,6 +87,10 @@ class TestCalc(unittest.TestCase):
         assert set(output_text.lower()).issubset(pattern)
 
     def test_validate_empty_input(self):
+        """ GIVEN I clean up input field
+            AND I click on 'Оставить ещё и .,-!?' button
+            THEN output text is empty
+        """
         self.input_text_element.send_keys(Keys.CONTROL + "a")
         self.input_text_element.send_keys(Keys.DELETE)
         self.button_clean_vowels_spaces_and_symbols.click()
@@ -79,6 +98,10 @@ class TestCalc(unittest.TestCase):
         assert len(output_text) == 0
 
     def test_validate_small_window_resolution(self):
+        """ GIVEN I have min screen
+            AND I click on 'Оставить ещё и .,-!?' button
+            THEN output text has vowels, spaces and symbols only
+        """
         self.chrome_driver.set_window_size(250, 800)
         assert self.button_clean_vowels_spaces_and_symbols.is_displayed()
         assert self.button_clean_vowels_and_spaces.is_displayed()
