@@ -85,8 +85,7 @@ class TestSuite(unittest.TestCase):
             THEN output text has vowels, spaces and symbols only
         """
         pattern = set(VOWELS + SPACE + SYMBOLS)
-        self.input_text_element.send_keys(Keys.CONTROL + "a")
-        self.input_text_element.send_keys(Keys.DELETE)
+        self.input_text_element.clear()
         self.input_text_element.send_keys(CUSTOM_TEXT)
         self.button_clean_vowels_spaces_and_symbols.click()
         self.validateResultBasedOnPattern(pattern)
@@ -96,8 +95,7 @@ class TestSuite(unittest.TestCase):
             AND I click on 'Оставить ещё и .,-!?' button
             THEN output text is empty
         """
-        self.input_text_element.send_keys(Keys.CONTROL + "a")
-        self.input_text_element.send_keys(Keys.DELETE)
+        self.input_text_element.clear()
         self.button_clean_vowels_spaces_and_symbols.click()
         self.validateResultBasedOnPattern('')
 
